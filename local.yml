@@ -1,7 +1,7 @@
 ---
 - name: Raspberry Pi self configuration
-  hosts: localhost
-  user: root
-  connection: local
+  hosts: raspberryPI
+  user: pi
+  connection: ssh
   roles:
     - common
