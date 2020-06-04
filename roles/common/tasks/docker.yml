@@ -61,7 +61,7 @@
 - name: update the user 'murtaza' with a bash shell, appending the group 'docker' to the user's groups
   become: yes
   user:
-    name: murtaza
+    name: pi
     shell: /bin/bash
     groups: docker
     append: yes
