@@ -1,0 +1,17 @@
+---
+- name: disable swap
+  become: yes
+  shell: dphys-swapfile swapoff && dphys-swapfile uninstall && update-rc.d dphys-swapfile remove && systemctl disable dphys-swapfile
+  register: disable_swap
+- name: debug disble swap
+  debug: 
+      msg="{{ disable_swap }}"
+
+- name: disable swappiness
+  become: yes
+  sysctl:
+    name: vm.swappiness
+    value: '0'
+    sysctl_set: yes
+    state: present
+    reload: yes

@@ -1,45 +1,61 @@
 ---
-
-# Uninstall Raspbian bloat
-- name: remove raspbian bloat
+- name: Update and upgrade apt packages
+  become: true
   apt:
-    name="{{ packages }}"
-    state=absent
-  vars:
-    packages:
-      - wolfram-engine
-      - libreoffice*
-      - scratch
-      - minecraft-pi
-      - python-minecraftpi 
-      - python3-minecraftpi
-      - sonic-pi
-      - dillo
-      - gpicview
-      - penguinspuzzle
-  tags:
-    - sw
+    update_cache: yes
+    cache_valid_time: 86400
+# Uninstall Raspbian bloat
+# - name: remove raspbian bloat
+#   become: yes
+#   apt:
+#     name="{{ packages }}"
+#     state=absent
+#   vars:
+#     packages:
+#       - wolfram-engine
+#       - libreoffice*
+#       - scratch
+#       - minecraft-pi
+#       - python-minecraftpi
+#       - python3-minecraftpi
+#       - sonic-pi
+#       - dillo
+#       - gpicview
+#       - penguinspuzzle
+#   tags:
+#     - sw
 
 # Install required software
 - name: install basic software environment
+  become: yes
   apt:
     name="{{ packages }}"
     state=present
     update_cache=yes
   vars:
     packages:
-      - vim
       - git
       - python-pip
-      - ufw
+      - wget
+      - ca-certificates
+      - gnupg-agent
+      - curl
+      - apt-transport-https
+      - software-properties-common
+      - libffi-dev
+      - libssl-dev
+      - python3
+      - python3-pip
+      - git
+      - parted
   tags:
     - sw
 
-- name: install additional software
-  apt:
-    name="{{ myconfig.extra_software }}"
-    state=present
-    update_cache=yes
-  when: "'extra_software' in myconfig"
-  tags:
-    - sw
+# - name: install additional software
+#   apt:
+#     name="{{ myconfig.extra_software }}"
+#     state=present
+#     update_cache=yes
+#   when: "'extra_software' in myconfig"
+#   tags:
+#     - sw

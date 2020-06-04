@@ -5,11 +5,27 @@
     url: https://download.docker.com/linux/raspbian/gpg
     state: present
 
-- name: add docker official repository for raspbian Stretch
+- name: debug file before calling apt_repository
+  become: yes
+  command: "cat /etc/apt/sources.list"
+  register: sources
+- name: show the source
+  debug:
+      msg={{ sources.stdout_lines }}
+
+- name: add docker official repository for raspbian buster
   become: yes
   apt_repository:
-    repo: deb [arch=armhf] https://download.docker.com/linux/raspbian stretch stable
+    repo: deb [arch=armhf] https://download.docker.com/linux/raspbian buster stable
     state: present
+
+- name: debug file after calling apt_repository
+  become: yes
+  command: "cat /etc/apt/sources.list"
+  register: sources
+- name: show the source
+  debug:
+      msg={{ sources.stdout_lines }}
 
 - name: Update and upgrade apt packages
   become: true
@@ -27,12 +43,25 @@
 
 - name: Install docker-ce
   become: yes
+  register: docker_install
   apt:
-    name: "{{ packages }}"  
+    name: "{{ packages }}"
   vars:
-    packages:    
-    - docker.ce
+    packages:
+    - docker-ce
     - docker-compose
     - docker-ce-cli
     - containerd.io
     state: latest
+
+- name: show the docker install
+  debug:
+      msg={{ docker_install }}
+
+- name: update the user 'murtaza' with a bash shell, appending the group 'docker' to the user's groups
+  become: yes
+  user:
+    name: murtaza
+    shell: /bin/bash
+    groups: docker
+    append: yes

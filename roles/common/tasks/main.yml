@@ -3,6 +3,7 @@
 # Gather facts specific to the Raspberry Pi platform
 - include: raspi-facts.yml
 - include: linux-facts.yml
+- include: linux-config.yml
 
 # Basic hostname setup
 - name: Get MAC address
@@ -27,10 +28,12 @@
     - sw
 
 - name: set hostname
+  become: yes
   shell: "raspi-config nonint do_hostname {{ myconfig.hostname }}"
   when: raspi_hostname != myconfig.hostname
 
 - name: update /etc/hosts with new hostname
+  become: yes
   lineinfile:
     dest=/etc/hosts
     regexp="^{{ ansible_default_ipv4.address }}"
@@ -38,6 +41,7 @@
     state=present
 
 - name: get rid of default 127.0.1.1 binding
+  become: yes
   lineinfile:
     dest=/etc/hosts
     regexp="^127.0.1.1"
@@ -45,90 +49,101 @@
 
 # Set timezone
 - name: set timezone
+  become: yes
   command: "timedatectl set-timezone {{ myconfig.timezone }}"
   when: linux_tz != myconfig.timezone
 
 # Set locale
 - name: set locale
+  become: yes
   command: "raspi-config nonint do_change_locale {{ myconfig.locale }}"
   when: "'locale' in myconfig and linux_locale != myconfig.locale"
 
 # Set X keyboard layout
-- name: set X11 keyboard layout
-  command: "raspi-config nonint do_configure_keyboard {{ myconfig.xkblayout }}"
-  when: "'xkblayout' in myconfig and myconfig.xkblayout != linux_xkblayout"
+# - name: set X11 keyboard layout
+#   become: yes
+#   command: "raspi-config nonint do_configure_keyboard {{ myconfig.xkblayout }}"
+#   when: "'xkblayout' in myconfig and myconfig.xkblayout != linux_xkblayout"
 
-# Set wifi country
-- name: set wifi country
-  command: "raspiconfig nonint do_wifi_country {{ myconfig.wifi_country }}"
-  when: "'wifi_country' in myconfig and myconfig.wifi_country != raspi_wifi_country"
+# # Set wifi country
+# - name: set wifi country
+#   command: "raspiconfig nonint do_wifi_country {{ myconfig.wifi_country }}"
+#   when: "'wifi_country' in myconfig and myconfig.wifi_country != raspi_wifi_country"
 
-# Enable sshd
-- name: disable ssh login for user pi
-  lineinfile:
-    dest=/etc/ssh/sshd_config
-    line="DenyUsers pi"
-    state=present
-  tags:
-    - raspi
+# # Enable sshd
+# - name: disable ssh login for user pi
+#   lineinfile:
+#     dest=/etc/ssh/sshd_config
+#     line="DenyUsers pi"
+#     state=present
+#   tags:
+#     - raspi
 
-- name: enable SSH via raspi-config
-  shell: "raspi-config nonint do_ssh 0"
-  when: not raspi_ssh_enabled
-  tags:
-    - raspi
+# - name: enable SSH via raspi-config
+#   shell: "raspi-config nonint do_ssh 0"
+#   when: not raspi_ssh_enabled
+#   tags:
+#     - raspi
 
 # Other tasks
 - include: software.yml
-- include: users.yml
+# - include: users.yml
 - include: raspi-config.yml
-- include: darshan-dev.yml
-  when: "'darshan_dev' in myconfig and myconfig.darshan_dev"
+- include: docker.yml
 
 # Configure firewall
-- name: allow SSH through UFW
-  ufw:
-    rule: allow
-    port: ssh
-    proto: tcp
-    log: yes
-  tags:
-    - ufw
+# - name: allow SSH through UFW
+#   ufw:
+#     rule: allow
+#     port: ssh
+#     proto: tcp
+#     log: yes
+#   tags:
+#     - ufw
+#
+# - name: allow docker through UFW
+#   ufw:
+#     rule: allow
+#     port: 2375
+#     proto: tcp
+#     log: yes
+#   tags:
+#     - ufw
+#
+# - name: allow mDNS through UFW
+#   ufw:
+#     rule: allow
+#     to_ip: 224.0.0.251
+#     proto: igmp
+#     log: no
+#   tags:
+#     - ufw
+#
+# - name: drop multicast without logging
+#   ufw:
+#     rule: deny
+#     to_ip: 224.0.0.1
+#     log: no
+#   tags:
+#     - ufw
+#
+# - name: set default incoming UFW policy to deny
+#   ufw:
+#     direction: incoming
+#     policy: deny
+#   tags:
+#     - ufw
+#
+# - name: set default outgoing UFW policy to allow
+#   ufw:
+#     direction: outgoing
+#     policy: allow
+#   tags:
+#     - ufw
 
-- name: allow mDNS through UFW
-  ufw:
-    rule: allow
-    to_ip: 224.0.0.251
-    proto: igmp
-    log: no
-  tags:
-    - ufw
-
-- name: drop multicast without logging
-  ufw:
-    rule: deny
-    to_ip: 224.0.0.1
-    log: no
-  tags:
-    - ufw
-
-- name: set default incoming UFW policy to deny
-  ufw:
-    direction: incoming
-    policy: deny
-  tags:
-    - ufw
-
-- name: set default outgoing UFW policy to allow
-  ufw:
-    direction: outgoing
-    policy: allow
-  tags:
-    - ufw
-
-- name: enable UFW
-  ufw:
-    state: enabled
-    logging: yes
-  tags:
-    - ufw
+# - name: enable UFW
+#   ufw:
+#     state: enabled
+#     logging: yes
+#   tags:
+#     - ufw

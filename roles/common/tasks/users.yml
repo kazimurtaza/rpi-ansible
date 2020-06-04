@@ -13,6 +13,7 @@
 
 ### Create user accounts
 - name: create users
+  become: yes
   user: name="{{ item.name }}"
         comment="{{ item.comment }}"
         group="{{ item.group }}"
@@ -24,6 +25,7 @@
   tags: [ 'users' ]
 
 - name: install ssh pubkeys for new users
+  become: yes
   authorized_key: user="{{ item.name }}"
                   key="{{ item.pubkey }}"
                   state=present

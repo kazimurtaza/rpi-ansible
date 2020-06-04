@@ -6,6 +6,9 @@
   check_mode: no
   tags:
     - raspi
+- name: raspi model type
+  debug:
+      msg: "Raspberry PI {{ raspi_type.stdout }}"
 
 - name: get hostname via raspi-config
   shell: "raspi-config nonint get_hostname"
@@ -47,13 +50,13 @@
   tags:
     - raspi
 
-- name: get wifi country
-  shell: "raspi-config nonint get_wifi_country"
-  register: raspi_wifi_country
-  changed_when: False
-  check_mode: no
-  tags:
-    - raspi
+# - name: get wifi country
+#   shell: "raspi-config nonint get_wifi_country"
+#   register: raspi_wifi_country
+#   changed_when: False
+#   check_mode: no
+#   tags:
+#     - raspi
 
 - name: get camera status
   shell: "raspi-config nonint get_camera" # 0 == "camera enabled"; 1 == "camera disabled"
@@ -195,7 +198,7 @@
   set_fact:
     raspi_type: "{{ raspi_type.stdout }}"
     raspi_hostname: "{{ raspi_hostname.stdout }}"
-    raspi_wifi_country: "{{ raspi_wifi_country.stdout }}"
+    # raspi_wifi_country: "{{ raspi_wifi_country.stdout }}"
     raspi_gui_enabled: "{{ raspi_boot_gui.stdout != '0' }}"
     raspi_autologin_enabled: "{{ raspi_noautologin.stdout == '0' }}"
     raspi_bootwait_enabled: "{{ raspi_boot_nowait.stdout == '0' }}"
