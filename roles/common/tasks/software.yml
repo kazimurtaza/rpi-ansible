@@ -1,9 +1,11 @@
 ---
-- name: Update and upgrade apt packages
+# update and upgrade apt packages
+- name: update apt packages
   become: true
   apt:
     update_cache: yes
     cache_valid_time: 86400
+
 # Uninstall Raspbian bloat
 # - name: remove raspbian bloat
 #   become: yes
@@ -31,10 +33,11 @@
   apt:
     name="{{ packages }}"
     state=present
-    update_cache=yes
+    update_cache=no
   vars:
     packages:
       - git
+      - python-apt  
       - python-pip
       - wget
       - ca-certificates
@@ -45,17 +48,6 @@
       - libffi-dev
       - libssl-dev
       - python3
-      - python3-pip
-      - git
-      - parted
   tags:
     - sw
 
-# - name: install additional software
-#   apt:
-#     name="{{ myconfig.extra_software }}"
-#     state=present
-#     update_cache=yes
-#   when: "'extra_software' in myconfig"
-#   tags:
-#     - sw

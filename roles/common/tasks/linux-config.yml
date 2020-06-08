@@ -15,5 +15,3 @@
     sysctl_set: yes
     state: present
     reload: yes
-
-- include: log2ram.yml

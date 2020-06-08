@@ -61,17 +61,17 @@
   tags:
     - raspi
 
-# - name: enable/disable serial
-#   command: "raspi-config nonint do_serial {{ 0 if myconfig.enable_serial else 1 }}"
-#   when: "'enable_serial' in myconfig and myconfig.enable_serial != raspi_serial_enabled"
-#   tags:
-#     - raspi
+- name: enable/disable serial
+  command: "raspi-config nonint do_serial {{ 0 if myconfig.enable_serial else 1 }}"
+  when: "'enable_serial' in myconfig and myconfig.enable_serial != raspi_serial_enabled and raspi_type == '2' or raspi_type == '3'"
+  tags:
+    - raspi
 
-# - name: enable/disable hardware serial
-#   command: "raspi-config nonint do_serial_hw {{ 0 if myconfig.enable_serial_hw else 1 }}"
-#   when: "'enable_serial_hw' in myconfig and myconfig.enable_serial_hw != raspi_serial_hw_enabled"
-#   tags:
-#     - raspi
+- name: enable/disable hardware serial
+  command: "raspi-config nonint do_serial_hw {{ 0 if myconfig.enable_serial_hw else 1 }}"
+  when: "'enable_serial_hw' in myconfig and myconfig.enable_serial_hw != raspi_serial_hw_enabled and raspi_type == '2' or raspi_type == '3'"
+  tags:
+    - raspi
 
 - name: enable/disable onewire
   command: "raspi-config nonint do_onewire {{ 0 if myconfig.enable_onewire else 1 }}"

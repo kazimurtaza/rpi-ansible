@@ -1,6 +1,7 @@
 ---
 - name: Raspberry Pi self configuration
   hosts: raspberryPI
+  # strategy: free
   user: pi
   connection: ssh
   roles:
