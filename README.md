@@ -1,16 +1,16 @@
 # Raspberry Pi Ansible
 
-Glenn K. Lockwood, October 2018
+Originally byGlenn K. Lockwood, October 2018 - forked June 2020
 
 ## Introduction
 
 This is an Ansible configuration that configures a fresh Raspbian installation
-on Raspberry Pi.  It is intended to be run in local (pull) mode, where ansible
-is running on the same Raspberry Pi to be configured.
+on Raspberry Pi. It is intended to be run in SSH (push) mode, where ansible
+is running on the different machine, configuring multiple Raspberry Pi's simultaneously.
 
 ## Bootstrapping on Raspbian
 
-You will need ansible installed on the Raspberry Pi being configured.  This
+You will need ansible installed on the host machine. This
 playbook relies on Ansible 2.8 or newer, which means you can no longer use
 `sudo apt-get install ansible`.  Instead, you must
 
