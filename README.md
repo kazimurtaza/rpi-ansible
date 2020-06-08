@@ -1,6 +1,6 @@
 # Raspberry Pi Ansible
 
-Originally byGlenn K. Lockwood, October 2018 - forked June 2020
+Originally by Glenn K. Lockwood, October 2018 - forked June 2020
 
 ## Introduction
 
