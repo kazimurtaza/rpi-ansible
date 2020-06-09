@@ -11,15 +11,15 @@
     modification_time: preserve
     access_time: preserve
 
-# - name: check if log2ram service exists
-#   stat: path=/etc/systemd/system/log2ram.service
-#   register: log2ram_status
+- name: check if log2ram service exists
+  stat: path=/etc/systemd/system/log2ram.service
+  register: log2ram_status
 
 - name: stop log2ram service
-  systemd: 
-     name: log2ram 
+  systemd:
+     name: log2ram
      state: stopped
-  # when: log2ram_status.stat.exists
+  when: log2ram_status.stat.exists
 
 - name: install log2ram
   become: yes
@@ -28,5 +28,5 @@
       chdir: /home/pi/log2ram/
   register: log2ram
 - name: debug log2ram
-  debug: 
+  debug:
       msg="{{ log2ram }}"

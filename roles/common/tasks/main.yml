@@ -6,7 +6,7 @@
 
 # Basic hostname setup
 - name: Get MAC address
-  debug: 
+  debug:
     msg: "{{ hostvars[inventory_hostname].ansible_default_ipv4.macaddress }}"
   tags:
     - raspi
@@ -53,10 +53,10 @@
   when: linux_tz != myconfig.timezone
 
 # Set locale
-- name: set locale
-  become: yes
-  command: "raspi-config nonint do_change_locale {{ myconfig.locale }}"
-  when: "'locale' in myconfig and linux_locale != myconfig.locale"
+# - name: set locale
+#   become: yes
+#   command: "raspi-config nonint do_change_locale {{ myconfig.locale }}"
+#   when: "'locale' in myconfig and linux_locale != myconfig.locale"
 
 # Other tasks
 - include: software.yml

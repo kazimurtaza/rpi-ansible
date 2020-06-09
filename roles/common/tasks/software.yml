@@ -37,17 +37,9 @@
   vars:
     packages:
       - git
-      - python-apt  
+      - python-apt
       - python-pip
       - wget
-      - ca-certificates
-      - gnupg-agent
       - curl
-      - apt-transport-https
-      - software-properties-common
-      - libffi-dev
-      - libssl-dev
-      - python3
   tags:
     - sw
-
