@@ -7,7 +7,7 @@
   tags: pihole
 
 - name: Create pihole configuration directory
-  become: True
+  become: yes
   file:
     name="{{ fspath_pihole_config }}"
     state=directory
@@ -17,7 +17,7 @@
   tags: pihole
 
 - name: Set static IP configuration
-  become: True
+  become: yes
   template:
     src="etc_network_interfaces.j2"
     dest="/etc/network/interfaces"
@@ -27,7 +27,7 @@
   tags: pihole
 
 - name: Set default DNS
-  become: True
+  become: yes
   template:
     src="etc_resolf.conf.j2"
     dest="/etc/resolv.conf"
@@ -37,7 +37,7 @@
   tags: admin
 
 - name: Create pihole configuration
-  become: True
+  become: yes
   template:
     src="setupVars.conf.j2"
     dest="{{ fspath_pihole_config }}/setupVars.conf"

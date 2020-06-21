@@ -16,6 +16,7 @@
   register: log2ram_status
 
 - name: stop log2ram service
+  become: yes
   systemd:
      name: log2ram
      state: stopped
