@@ -1,0 +1,9 @@
+---
+- name: Raspberry Pi self configuration
+  hosts: raspberry
+  # strategy: free
+  user: pi
+  connection: ssh
+  roles:
+    - common
+    - log2ram

@@ -1,0 +1,38 @@
+---
+- name: git clone log2ram
+  git:
+    repo: 'https://github.com/azlux/log2ram.git'
+    dest: /home/pi/log2ram
+
+- name: chmod execute rights to script log2ram
+  file:
+    path: /home/pi/log2ram/install.sh
+    mode: a+x
+    modification_time: preserve
+    access_time: preserve
+
+- name: check if log2ram service exists
+  stat: path=/etc/systemd/system/log2ram.service
+  register: log2ram_status
+
+- name: stop log2ram service
+  become: yes
+  systemd:
+     name: log2ram
+     state: stopped
+  when: log2ram_status.stat.exists
+
+- name: install log2ram
+  become: yes
+  shell: sh install.sh
+  args:
+      chdir: /home/pi/log2ram/
+  register: log2ram
+- name: debug log2ram
+  debug:
+      msg="{{ log2ram }}"
+
+- name: restart the servers
+  become: yes
+  reboot:
+    reboot_timeout: 300

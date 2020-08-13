@@ -1,0 +1,60 @@
+---
+- name: enable cli only
+  command: "raspi-config nonint do_boot_behaviour B1"
+  tags:
+    - raspi
+
+- name: enable cli with autologin
+  command: "raspi-config nonint do_boot_behaviour B2"
+  tags:
+    - raspi
+
+- name: set bootwait option
+  command: "raspi-config nonint do_boot_wait 1"
+  tags:
+    - raspi
+
+- name: set boot splash option
+  command: "raspi-config nonint do_boot_splash 0"
+  tags:
+    - raspi
+
+- name: disable camera
+  command: "raspi-config nonint do_camera 0"
+  tags:
+    - raspi
+
+- name: disable VNC server
+  command: "raspi-config nonint do_vnc 0"
+  tags:
+    - raspi
+
+- name: disable SPI
+  command: "raspi-config nonint do_spi 0"
+  tags:
+    - raspi
+
+- name: disable I2C
+  command: "raspi-config nonint do_i2c 0"
+  tags:
+    - raspi
+
+- name: disable serial
+  command: "raspi-config nonint do_serial 0"
+  tags:
+    - raspi
+
+- name: disable hardware serial
+  command: "raspi-config nonint do_serial_hw 0"
+  tags:
+    - raspi
+
+- name: disable onewire
+  command: "raspi-config nonint do_onewire 0"
+  tags:
+    - raspi
+
+- name: disable remote GPIO
+  command: "raspi-config nonint do_rgpio 0"
+  tags:
+    - raspi
