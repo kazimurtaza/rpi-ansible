@@ -1,8 +1,5 @@
-[raspberryPI]
-# 192.168.1.138 ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
-# 192.168.1.139 ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
-raspberrypi.local ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
-# raspberrypi2.local ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
-# raspberrypi3.local ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
-# raspberrypi41.local ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
-# raspberrypi42.local ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
+[raspberry]
+192.168.1.7 ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
+192.168.1.8 ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh 
+192.168.1.9 ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
+192.168.1.10 ansible_user=pi ansible_password=raspberry ansible_port=22 ansible_connection=ssh
